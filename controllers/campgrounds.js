@@ -1,3 +1,4 @@
+const campground = require('../models/campground');
 const Campground = require('../models/campground');
 
 module.exports.index = async (request, response) => {
@@ -11,6 +12,7 @@ module.exports.renderNewForm = (request, response) => {
 
 module.exports.createCampground = async (request, response, next) => {
     const newCampground = new Campground(request.body.campground);
+    newCampground.images = request.files.map(file => ({url: file.path, filename: file.filename}));
     newCampground.author = request.user._id;
     await newCampground.save();
     request.flash('success', 'Successfully made a new campground!');
