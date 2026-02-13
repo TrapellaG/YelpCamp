@@ -60,3 +60,14 @@ module.exports.validateReview = (request, response, next) => {
         next();
     }
 };
+
+module.exports.MAX_IMAGES = 5;
+module.exports.maxFiles = (request, response, next) => {
+    const MAX_IMAGES = module.exports.MAX_IMAGES;
+    if (request.files && request.files.length > MAX_IMAGES) {
+        request.flash('error', `You can upload up to ${MAX_IMAGES} images only!`);
+        return response.redirect('/new');
+    }
+    next();
+}
+
