@@ -5,9 +5,11 @@
                 <h4 class="alert-heading">
                     <%= error.message %>
                 </h4>
-                <p>
-                    <%= error.stack %>
-                </p>
+                <% if(process.env.NODE_ENV !=="production" ) { %>
+                    <p>
+                        <%= error.stack %>
+                    </p>
+                    <% } %>
             </div>
         </div>
     </div>
