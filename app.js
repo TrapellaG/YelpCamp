@@ -7,9 +7,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
-const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { campgroundSchema, reviewSchema } = require('./schemas.js');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -18,10 +16,7 @@ const User = require('./models/user');
 const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
 const helmet = require('helmet');
 
-const Review = require('./models/review');
-const Campground = require('./models/campground');
-
-const campgroundRoutes = require('./routes/campgrounds');
+const spotRoutes = require('./routes/spots');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
@@ -30,9 +25,9 @@ const { MongoStore } = require('connect-mongo');
 const { request } = require('http');
 
 const dbUrl = process.env.DB_URL;
-//const db_url = 'mongodb://localhost:27017/yelp-camp';
+const db_url = 'mongodb://localhost:27017/skate-spots';
 
-mongoose.connect(dbUrl);
+mongoose.connect(db_url);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -54,7 +49,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 const store = MongoStore.create({
-    mongoUrl: dbUrl,
+    mongoUrl: db_url,
     touchAfter: 24 * 60 * 60,
     crypto: {
         secret: 'thisshouldbeabettersecret!'
@@ -142,8 +137,8 @@ app.use((request, response, next) => {
 });
 
 app.use('/', userRoutes);
-app.use('/campgrounds', campgroundRoutes);
-app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/spots', spotRoutes);
+app.use('/spots/:id/reviews', reviewRoutes);
 
 app.get('/', (request, response) => {
     response.render('home');
