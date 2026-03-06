@@ -9,8 +9,8 @@ mapboxgl.accessToken = mapBoxToken;
                 lightPreset: 'night'
             }
         },
-        center: [-103.5917, 40.6699],
-        zoom: 3
+        center: [-3.498249115217101, 40.323615799692256],
+        zoom: 2
     });
 
     map.addControl(new mapboxgl.NavigationControl());
@@ -82,7 +82,7 @@ mapboxgl.accessToken = mapBoxToken;
             filter: ['!', ['has', 'point_count']],
             paint: {
                 'circle-color': '#11b4da',
-                'circle-radius': 4,
+                'circle-radius': 6,
                 'circle-stroke-width': 1,
                 'circle-stroke-color': '#fff',
                 'circle-emissive-strength': 1
